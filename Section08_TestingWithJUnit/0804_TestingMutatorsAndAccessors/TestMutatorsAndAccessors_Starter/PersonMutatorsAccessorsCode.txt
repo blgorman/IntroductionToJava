@@ -1,0 +1,57 @@
+
+    
+    /**
+     * Get the person's First name.
+     * @return the first name as a String
+     */
+    public String getFirstName()
+    {
+        return _firstName;
+    }
+    
+    /**
+     * Set the person's First name.
+     * @param value the first name as a String
+     */
+    public void setFirstName(String value)
+    {
+        _firstName = value;
+    }
+    
+    /**
+     * Get the person's Last name.
+     * @return the last name as a String
+     */
+    public String getLastName()
+    {
+        return _lastName;
+    }
+    
+    /**
+     * Set the person's Last name.
+     * @param value the last name as a String
+     */
+    public void setLastName(String value)
+    {
+        _lastName = value;
+    }
+    
+    /**
+     * Get the age of the person.
+     * @return the age of the person.
+     */
+    public int getAge()
+    {
+        return _age;
+    }
+    
+    /**
+     * Set the age of the person.
+     * @param value the age of the person.
+     */
+    public void setAge(int value)
+    {
+        _age = value;
+    }
+    
+    

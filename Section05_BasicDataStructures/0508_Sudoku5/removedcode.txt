@@ -1,0 +1,1207 @@
+    //static String GridLine = "%s | %s | %s\n";
+    //static String GridData = "%s:%s:%s";    
+/* Because we don't have any other known option at this point, the
+     * only thing we can do is create global variables for all of the
+     * current positions, and use them to keep track of the solution
+     * as we go.  We'll learn a better way to do this in the next section
+     */
+    /******************   ONLY WAY WE KNOW RIGHT NOW ***********************/
+    /*
+    public static String zeroZero = BLANK;
+    public static String zeroOne = BLANK;
+    public static String zeroTwo = BLANK;
+    public static String zeroThree = BLANK;
+    public static String zeroFour = BLANK;
+    public static String zeroFive = BLANK;
+    public static String zeroSix = BLANK;
+    public static String zeroSeven = BLANK;
+    public static String zeroEight = BLANK;
+    
+    public static String oneZero = BLANK;
+    public static String oneOne = BLANK;
+    public static String oneTwo = BLANK;
+    public static String oneThree = BLANK;
+    public static String oneFour = BLANK;
+    public static String oneFive = BLANK;
+    public static String oneSix = BLANK;
+    public static String oneSeven = BLANK;
+    public static String oneEight = BLANK;
+    
+    public static String twoZero = BLANK;
+    public static String twoOne = BLANK;
+    public static String twoTwo = BLANK;
+    public static String twoThree = BLANK;
+    public static String twoFour = BLANK;
+    public static String twoFive = BLANK;
+    public static String twoSix = BLANK;
+    public static String twoSeven = BLANK;
+    public static String twoEight = BLANK;
+    
+    public static String threeZero = BLANK;
+    public static String threeOne = BLANK;
+    public static String threeTwo = BLANK;
+    public static String threeThree = BLANK;
+    public static String threeFour = BLANK;
+    public static String threeFive = BLANK;
+    public static String threeSix = BLANK;
+    public static String threeSeven = BLANK;
+    public static String threeEight = BLANK;
+    
+    public static String fourZero = BLANK;
+    public static String fourOne = BLANK;
+    public static String fourTwo = BLANK;
+    public static String fourThree = BLANK;
+    public static String fourFour = BLANK;
+    public static String fourFive = BLANK;
+    public static String fourSix = BLANK;
+    public static String fourSeven = BLANK;
+    public static String fourEight = BLANK;
+    
+    public static String fiveZero = BLANK;
+    public static String fiveOne = BLANK;
+    public static String fiveTwo = BLANK;
+    public static String fiveThree = BLANK;
+    public static String fiveFour = BLANK;
+    public static String fiveFive = BLANK;
+    public static String fiveSix = BLANK;
+    public static String fiveSeven = BLANK;
+    public static String fiveEight = BLANK;
+    
+    public static String sixZero = BLANK;
+    public static String sixOne = BLANK;
+    public static String sixTwo = BLANK;
+    public static String sixThree = BLANK;
+    public static String sixFour = BLANK;
+    public static String sixFive = BLANK;
+    public static String sixSix = BLANK;
+    public static String sixSeven = BLANK;
+    public static String sixEight = BLANK;
+    
+    public static String sevenZero = BLANK;
+    public static String sevenOne = BLANK;
+    public static String sevenTwo = BLANK;
+    public static String sevenThree = BLANK;
+    public static String sevenFour = BLANK;
+    public static String sevenFive = BLANK;
+    public static String sevenSix = BLANK;
+    public static String sevenSeven = BLANK;
+    public static String sevenEight = BLANK;
+    
+    public static String eightZero = BLANK;
+    public static String eightOne = BLANK;
+    public static String eightTwo = BLANK;
+    public static String eightThree = BLANK;
+    public static String eightFour = BLANK;
+    public static String eightFive = BLANK;
+    public static String eightSix = BLANK;
+    public static String eightSeven = BLANK;
+    public static String eightEight = BLANK;
+    */
+    
+
+//from getcurrentstateitem:
+/*
+        switch (row)
+        {
+            case 0:
+                switch (column)
+                {
+                    case 0:
+                        return zeroZero;
+                    case 1:
+                        return zeroOne;
+                    case 2:
+                        return zeroTwo;
+                    case 3:
+                        return zeroThree;
+                    case 4:
+                        return zeroFour;
+                    case 5:
+                        return zeroFive;
+                    case 6:
+                        return zeroSix;
+                    case 7:
+                        return zeroSeven;
+                    case 8:
+                        return zeroEight;
+                    default:
+                        break;
+                }
+                break;
+            case 1:
+                switch (column)
+                {
+                    case 0:
+                        return oneZero;
+                    case 1:
+                        return oneOne;
+                    case 2:
+                        return oneTwo;
+                    case 3:
+                        return oneThree;
+                    case 4:
+                        return oneFour;
+                    case 5:
+                        return oneFive;
+                    case 6:
+                        return oneSix;
+                    case 7:
+                        return oneSeven;
+                    case 8:
+                        return oneEight;
+                    default:
+                        break;
+                }
+                break;
+            case 2:
+                switch (column)
+                {
+                    case 0:
+                        return twoZero;
+                    case 1:
+                        return twoOne;
+                    case 2:
+                        return twoTwo;
+                    case 3:
+                        return twoThree;
+                    case 4:
+                        return twoFour;
+                    case 5:
+                        return twoFive;
+                    case 6:
+                        return twoSix;
+                    case 7:
+                        return twoSeven;
+                    case 8:
+                        return twoEight;
+                    default:
+                        break;
+                }
+                break;
+            case 3:
+                switch (column)
+                {
+                    case 0:
+                        return threeZero;
+                    case 1:
+                        return threeOne;
+                    case 2:
+                        return threeTwo;
+                    case 3:
+                        return threeThree;
+                    case 4:
+                        return threeFour;
+                    case 5:
+                        return threeFive;
+                    case 6:
+                        return threeSix;
+                    case 7:
+                        return threeSeven;
+                    case 8:
+                        return threeEight;
+                    default:
+                        break;
+                }
+                break;
+            case 4:
+                switch (column)
+                {
+                    case 0:
+                        return fourZero;
+                    case 1:
+                        return fourOne;
+                    case 2:
+                        return fourTwo;
+                    case 3:
+                        return fourThree;
+                    case 4:
+                        return fourFour;
+                    case 5:
+                        return fourFive;
+                    case 6:
+                        return fourSix;
+                    case 7:
+                        return fourSeven;
+                    case 8:
+                        return fourEight;
+                    default:
+                        break;
+                }
+                break;
+            case 5:
+                switch (column)
+                {
+                    case 0:
+                        return fiveZero;
+                    case 1:
+                        return fiveOne;
+                    case 2:
+                        return fiveTwo;
+                    case 3:
+                        return fiveThree;
+                    case 4:
+                        return fiveFour;
+                    case 5:
+                        return fiveFive;
+                    case 6:
+                        return fiveSix;
+                    case 7:
+                        return fiveSeven;
+                    case 8:
+                        return fiveEight;
+                    default:
+                        break;
+                }
+                break;
+            case 6:
+                switch (column)
+                {
+                    case 0:
+                        return sixZero;
+                    case 1:
+                        return sixOne;
+                    case 2:
+                        return sixTwo;
+                    case 3:
+                        return sixThree;
+                    case 4:
+                        return sixFour;
+                    case 5:
+                        return sixFive;
+                    case 6:
+                        return sixSix;
+                    case 7:
+                        return sixSeven;
+                    case 8:
+                        return sixEight;
+                    default:
+                        break;
+                }
+                break;
+            case 7:
+                switch (column)
+                {
+                    case 0:
+                        return sevenZero;
+                    case 1:
+                        return sevenOne;
+                    case 2:
+                        return sevenTwo;
+                    case 3:
+                        return sevenThree;
+                    case 4:
+                        return sevenFour;
+                    case 5:
+                        return sevenFive;
+                    case 6:
+                        return sevenSix;
+                    case 7:
+                        return sevenSeven;
+                    case 8:
+                        return sevenEight;
+                    default:
+                        break;
+                }
+                break; 
+            case 8:
+                switch (column)
+                {
+                    case 0:
+                        return eightZero;
+                    case 1:
+                        return eightOne;
+                    case 2:
+                        return eightTwo;
+                    case 3:
+                        return eightThree;
+                    case 4:
+                        return eightFour;
+                    case 5:
+                        return eightFive;
+                    case 6:
+                        return eightSix;
+                    case 7:
+                        return eightSeven;
+                    case 8:
+                        return eightEight;
+                    default:
+                        break;
+                }
+                break; 
+            default:
+                break;
+        }
+        //should never get here...
+        return BLANK;
+        */
+
+//from getsolutionitem
+/*
+        if (row == 0)
+        {
+            switch (column)
+            {
+                case 0:
+                    return SIX;
+                case 1:
+                    return NINE;
+                case 2:
+                    return FIVE;
+                case 3:
+                    return SEVEN;
+                case 4:
+                    return EIGHT;
+                case 5:
+                    return THREE;
+                case 6:
+                    return ONE;
+                case 7:
+                    return FOUR;
+                case 8:
+                    return TWO;
+            }
+        }
+        else if (row == 1)
+        {
+            switch (column)
+            {
+                case 0:
+                    return ONE;
+                case 1:
+                    return SEVEN;
+                case 2:
+                    return EIGHT;
+                case 3:
+                    return SIX;
+                case 4:
+                    return TWO;
+                case 5:
+                    return FOUR;
+                case 6:
+                    return THREE;
+                case 7:
+                    return NINE;
+                case 8:
+                    return FIVE;
+            }
+        }
+        else if (row == 2)
+        {
+            switch (column)
+            {
+                case 0:
+                    return THREE;
+                case 1:
+                    return FOUR;
+                case 2:
+                    return TWO;
+                case 3:
+                    return FIVE;
+                case 4:
+                    return NINE;
+                case 5:
+                    return ONE;
+                case 6:
+                    return EIGHT;
+                case 7:
+                    return SIX;
+                case 8:
+                    return SEVEN;
+            }
+        }
+        else if (row == 3)
+        {
+            switch (column)
+            {
+                case 0:
+                    return TWO;
+                case 1:
+                    return ONE;
+                case 2:
+                    return SEVEN;
+                case 3:
+                    return EIGHT;
+                case 4:
+                    return THREE;
+                case 5:
+                    return NINE;
+                case 6:
+                    return FOUR;
+                case 7:
+                    return FIVE;
+                case 8:
+                    return SIX;
+            }
+        }
+        else if (row == 4)
+        {
+            switch (column)
+            {
+                case 0:
+                    return NINE;
+                case 1:
+                    return SIX;
+                case 2:
+                    return THREE;
+                case 3:
+                    return ONE;
+                case 4:
+                    return FOUR;
+                case 5:
+                    return FIVE;
+                case 6:
+                    return SEVEN;
+                case 7:
+                    return TWO;
+                case 8:
+                    return EIGHT;
+            }
+        }
+        else if (row == 5)
+        {
+            switch (column)
+            {
+                case 0:
+                    return EIGHT;
+                case 1:
+                    return FIVE;
+                case 2:
+                    return FOUR;
+                case 3:
+                    return TWO;
+                case 4:
+                    return SEVEN;
+                case 5:
+                    return SIX;
+                case 6:
+                    return NINE;
+                case 7:
+                    return ONE;
+                case 8:
+                    return THREE;
+            }
+        }
+        else if (row == 6)
+        {
+            switch (column)
+            {
+                case 0:
+                    return FIVE;
+                case 1:
+                    return TWO;
+                case 2:
+                    return NINE;
+                case 3:
+                    return THREE;
+                case 4:
+                    return ONE;
+                case 5:
+                    return EIGHT;
+                case 6:
+                    return SIX;
+                case 7:
+                    return SEVEN;
+                case 8:
+                    return FOUR;
+            }
+        }
+        else if (row == 7)
+        {
+            switch (column)
+            {
+                case 0:
+                    return FOUR;
+                case 1:
+                    return THREE;
+                case 2:
+                    return SIX;
+                case 3:
+                    return NINE;
+                case 4:
+                    return FIVE;
+                case 5:
+                    return SEVEN;
+                case 6:
+                    return TWO;
+                case 7:
+                    return EIGHT;
+                case 8:
+                    return ONE;
+            }
+        }
+        else if (row == 8)
+        {
+            switch (column)
+            {
+                case 0:
+                    return SEVEN;
+                case 1:
+                    return EIGHT;
+                case 2:
+                    return ONE;
+                case 3:
+                    return FOUR;
+                case 4:
+                    return SIX;
+                case 5:
+                    return TWO;
+                case 6:
+                    return FIVE;
+                case 7:
+                    return THREE;
+                case 8:
+                    return NINE;
+            }
+        }
+        return null;
+        */
+
+
+
+/**
+     * Check if the puzzle is solved.
+     * @return true if no slots are blank.
+     */
+    /*
+    public static Boolean CheckSolvedWithWhatWeKnow()
+    {
+        if (zeroZero.equals(BLANK)) { return false;}
+        if (zeroOne.equals(BLANK)) { return false; }
+        if (zeroTwo.equals(BLANK)) return false;
+        if (zeroThree.equals(BLANK)) return false;
+        if (zeroFour.equals(BLANK)) return false;
+        if (zeroFive.equals(BLANK)) return false;
+        if (zeroSix.equals(BLANK)) return false;
+        if (zeroSeven.equals(BLANK)) return false;
+        if (zeroEight.equals(BLANK)) return false;
+        
+        if (oneZero.equals(BLANK)) return false;
+        if (oneOne.equals(BLANK)) return false;
+        if (oneTwo.equals(BLANK)) return false;
+        if (oneThree.equals(BLANK)) return false;
+        if (oneFour.equals(BLANK)) return false;
+        if (oneFive.equals(BLANK)) return false;
+        if (oneSix.equals(BLANK)) return false;
+        if (oneSeven.equals(BLANK)) return false;
+        if (oneEight.equals(BLANK)) return false;
+       
+        if (twoZero.equals(BLANK)) return false;
+        if (twoOne.equals(BLANK)) return false;
+        if (twoTwo.equals(BLANK)) return false;
+        if (twoThree.equals(BLANK)) return false;
+        if (twoFour.equals(BLANK)) return false;
+        if (twoFive.equals(BLANK)) return false;
+        if (twoSix.equals(BLANK)) return false;
+        if (twoSeven.equals(BLANK)) return false;
+        if (twoEight.equals(BLANK)) return false;
+        
+        if (threeZero.equals(BLANK)) return false;
+        if (threeOne.equals(BLANK)) return false;
+        if (threeTwo.equals(BLANK)) return false;
+        if (threeThree.equals(BLANK)) return false;
+        if (threeFour.equals(BLANK)) return false;
+        if (threeFive.equals(BLANK)) return false;
+        if (threeSix.equals(BLANK)) return false;
+        if (threeSeven.equals(BLANK)) return false;
+        if (threeEight.equals(BLANK)) return false;
+        
+        if (fourZero.equals(BLANK)) return false;
+        if (fourOne.equals(BLANK)) return false;
+        if (fourTwo.equals(BLANK)) return false;
+        if (fourThree.equals(BLANK)) return false;
+        if (fourFour.equals(BLANK)) return false;
+        if (fourFive.equals(BLANK)) return false;
+        if (fourSix.equals(BLANK)) return false;
+        if (fourSeven.equals(BLANK)) return false;
+        if (fourEight.equals(BLANK)) return false;
+        
+        if (fiveZero.equals(BLANK)) return false;
+        if (fiveOne.equals(BLANK)) return false;
+        if (fiveTwo.equals(BLANK)) return false;
+        if (fiveThree.equals(BLANK)) return false;
+        if (fiveFour.equals(BLANK)) return false;
+        if (fiveFive.equals(BLANK)) return false;
+        if (fiveSix.equals(BLANK)) return false;
+        if (fiveSeven.equals(BLANK)) return false;
+        if (fiveEight.equals(BLANK)) return false;
+        
+        if (sixZero.equals(BLANK)) return false;
+        if (sixOne.equals(BLANK)) return false;
+        if (sixTwo.equals(BLANK)) return false;
+        if (sixThree.equals(BLANK)) return false;
+        if (sixFour.equals(BLANK)) return false;
+        if (sixFive.equals(BLANK)) return false;
+        if (sixSix.equals(BLANK)) return false;
+        if (sixSeven.equals(BLANK)) return false;
+        if (sixEight.equals(BLANK)) return false;
+        
+        if (sevenZero.equals(BLANK)) return false;
+        if (sevenOne.equals(BLANK)) return false;
+        if (sevenTwo.equals(BLANK)) return false;
+        if (sevenThree.equals(BLANK)) return false;
+        if (sevenFour.equals(BLANK)) return false;
+        if (sevenFive.equals(BLANK)) return false;
+        if (sevenSix.equals(BLANK)) return false;
+        if (sevenSeven.equals(BLANK)) return false;
+        if (sevenEight.equals(BLANK)) return false;
+        
+        if (eightZero.equals(BLANK)) return false;
+        if (eightOne.equals(BLANK)) return false;
+        if (eightTwo.equals(BLANK)) return false;
+        if (eightThree.equals(BLANK)) return false;
+        if (eightFour.equals(BLANK)) return false;
+        if (eightFive.equals(BLANK)) return false;
+        if (eightSix.equals(BLANK)) return false;
+        if (eightSeven.equals(BLANK)) return false;
+        if (eightEight.equals(BLANK)) return false;
+        
+        return true;
+    }
+    */
+
+//from set item in grid
+/*
+        switch (row)
+        {
+            case 0:
+                switch (column)
+                {
+                    case 0:
+                        zeroZero = entry;
+                        break;
+                    case 1:
+                        zeroOne = entry;
+                        break;
+                    case 2:
+                        zeroTwo = entry;
+                        break;
+                    case 3:
+                        zeroThree = entry;
+                        break;
+                    case 4:
+                        zeroFour = entry;
+                        break;
+                    case 5:
+                        zeroFive = entry;
+                        break;
+                    case 6:
+                        zeroSix = entry;
+                        break;
+                    case 7:
+                        zeroSeven = entry;
+                        break;
+                    case 8:
+                        zeroEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 1:
+                switch (column)
+                {
+                    case 0:
+                        oneZero = entry;
+                        break;
+                    case 1:
+                        oneOne = entry;
+                        break;
+                    case 2:
+                        oneTwo = entry;
+                        break;
+                    case 3:
+                        oneThree = entry;
+                        break;
+                    case 4:
+                        oneFour = entry;
+                        break;
+                    case 5:
+                        oneFive = entry;
+                        break;
+                    case 6:
+                        oneSix = entry;
+                        break;
+                    case 7:
+                        oneSeven = entry;
+                        break;
+                    case 8:
+                        oneEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 2:
+                switch (column)
+                {
+                    case 0:
+                        twoZero = entry;
+                        break;
+                    case 1:
+                        twoOne = entry;
+                        break;
+                    case 2:
+                        twoTwo = entry;
+                        break;
+                    case 3:
+                        twoThree = entry;
+                        break;
+                    case 4:
+                        twoFour = entry;
+                        break;
+                    case 5:
+                        twoFive = entry;
+                        break;
+                    case 6:
+                        twoSix = entry;
+                        break;
+                    case 7:
+                        twoSeven = entry;
+                        break;
+                    case 8:
+                        twoEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 3:
+                switch (column)
+                {
+                    case 0:
+                        threeZero = entry;
+                        break;
+                    case 1:
+                        threeOne = entry;
+                        break;
+                    case 2:
+                        threeTwo = entry;
+                        break;
+                    case 3:
+                        threeThree = entry;
+                        break;
+                    case 4:
+                        threeFour = entry;
+                        break;
+                    case 5:
+                        threeFive = entry;
+                        break;
+                    case 6:
+                        threeSix = entry;
+                        break;
+                    case 7:
+                        threeSeven = entry;
+                        break;
+                    case 8:
+                        threeEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 4:
+                switch (column)
+                {
+                    case 0:
+                        fourZero = entry;
+                        break;
+                    case 1:
+                        fourOne = entry;
+                        break;
+                    case 2:
+                        fourTwo = entry;
+                        break;
+                    case 3:
+                        fourThree = entry;
+                        break;
+                    case 4:
+                        fourFour = entry;
+                        break;
+                    case 5:
+                        fourFive = entry;
+                        break;
+                    case 6:
+                        fourSix = entry;
+                        break;
+                    case 7:
+                        fourSeven = entry;
+                        break;
+                    case 8:
+                        fourEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 5:
+                switch (column)
+                {
+                    case 0:
+                        fiveZero = entry;
+                        break;
+                    case 1:
+                        fiveOne = entry;
+                        break;
+                    case 2:
+                        fiveTwo = entry;
+                        break;
+                    case 3:
+                        fiveThree = entry;
+                        break;
+                    case 4:
+                        fiveFour = entry;
+                        break;
+                    case 5:
+                        fiveFive = entry;
+                        break;
+                    case 6:
+                        fiveSix = entry;
+                        break;
+                    case 7:
+                        fiveSeven = entry;
+                        break;
+                    case 8:
+                        fiveEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 6:
+                switch (column)
+                {
+                    case 0:
+                        sixZero = entry;
+                        break;
+                    case 1:
+                        sixOne = entry;
+                        break;
+                    case 2:
+                        sixTwo = entry;
+                        break;
+                    case 3:
+                        sixThree = entry;
+                        break;
+                    case 4:
+                        sixFour = entry;
+                        break;
+                    case 5:
+                        sixFive = entry;
+                        break;
+                    case 6:
+                        sixSix = entry;
+                        break;
+                    case 7:
+                        sixSeven = entry;
+                        break;
+                    case 8:
+                        sixEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 7:
+                switch (column)
+                {
+                    case 0:
+                        sevenZero = entry;
+                        break;
+                    case 1:
+                        sevenOne = entry;
+                        break;
+                    case 2:
+                        sevenTwo = entry;
+                        break;
+                    case 3:
+                        sevenThree= entry;
+                        break;
+                    case 4:
+                        sevenFour= entry;
+                        break;
+                    case 5:
+                        sevenFive= entry;
+                        break;
+                    case 6:
+                        sevenSix = entry;
+                        break;
+                    case 7:
+                        sevenSeven = entry;
+                        break;
+                    case 8:
+                        sevenEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break; 
+            case 8:
+                switch (column)
+                {
+                    case 0:
+                        eightZero = entry;
+                        break;
+                    case 1:
+                        eightOne = entry;
+                        break;
+                    case 2:
+                        eightTwo = entry;
+                        break;
+                    case 3:
+                        eightThree = entry;
+                        break;
+                    case 4:
+                        eightFour = entry;
+                        break;
+                    case 5:
+                        eightFive = entry;
+                        break;
+                    case 6:
+                        eightSix = entry;
+                        break;
+                    case 7:
+                        eightSeven = entry;
+                        break;
+                    case 8:
+                        eightEight = entry;
+                        break;
+                    default:
+                        break;
+                }
+                break; 
+            default:
+                break;
+        }
+        */
+
+
+//From solve it
+
+        zeroZero = GetSolutionItem(0,0);
+        zeroOne = GetSolutionItem(0,1);
+        zeroTwo = GetSolutionItem(0,2);
+        zeroThree = GetSolutionItem(0,3);
+        zeroFour = GetSolutionItem(0,4);
+        zeroFive = GetSolutionItem(0,5);
+        zeroSix = GetSolutionItem(0,6);
+        zeroSeven = GetSolutionItem(0,7);
+        zeroEight = GetSolutionItem(0,8);
+        
+        oneZero = GetSolutionItem(1,0);
+        oneOne = GetSolutionItem(1,1);
+        oneTwo = GetSolutionItem(1,2);
+        oneThree = GetSolutionItem(1,3);
+        oneFour = GetSolutionItem(1,4);
+        oneFive = GetSolutionItem(1,5);
+        oneSix = GetSolutionItem(1,6);
+        oneSeven = GetSolutionItem(1,7);
+        oneEight = GetSolutionItem(1,8);
+        
+        twoZero = GetSolutionItem(2,0);
+        twoOne = GetSolutionItem(2,1);
+        twoTwo = GetSolutionItem(2,2);
+        twoThree = GetSolutionItem(2,3);
+        twoFour = GetSolutionItem(2,4);
+        twoFive = GetSolutionItem(2,5);
+        twoSix = GetSolutionItem(2,6);
+        twoSeven = GetSolutionItem(2,7);
+        twoEight = GetSolutionItem(2,8);
+        
+        threeZero = GetSolutionItem(3,0);
+        threeOne = GetSolutionItem(3,1);
+        threeTwo = GetSolutionItem(3,2);
+        threeThree = GetSolutionItem(3,3);
+        threeFour = GetSolutionItem(3,4);
+        threeFive = GetSolutionItem(3,5);
+        threeSix = GetSolutionItem(3,6);
+        threeSeven = GetSolutionItem(3,7);
+        threeEight = GetSolutionItem(3,8);
+        
+        fourZero = GetSolutionItem(4,0);
+        fourOne = GetSolutionItem(4,1);
+        fourTwo = GetSolutionItem(4,2);
+        fourThree = GetSolutionItem(4,3);
+        fourFour = GetSolutionItem(4,4);
+        fourFive = GetSolutionItem(4,5);
+        fourSix = GetSolutionItem(4,6);
+        fourSeven = GetSolutionItem(4,7);
+        fourEight = GetSolutionItem(4,8);
+        
+        fiveZero = GetSolutionItem(5,0);
+        fiveOne = GetSolutionItem(5,1);
+        fiveTwo = GetSolutionItem(5,2);
+        fiveThree = GetSolutionItem(5,3);
+        fiveFour = GetSolutionItem(5,4);
+        fiveFive = GetSolutionItem(5,5);
+        fiveSix = GetSolutionItem(5,6);
+        fiveSeven = GetSolutionItem(5,7);
+        fiveEight = GetSolutionItem(5,8);
+        
+        sixZero = GetSolutionItem(6,0);
+        sixOne = GetSolutionItem(6,1);
+        sixTwo = GetSolutionItem(6,2);
+        sixThree = GetSolutionItem(6,3);
+        sixFour = GetSolutionItem(6,4);
+        sixFive = GetSolutionItem(6,5);
+        sixSix = GetSolutionItem(6,6);
+        sixSeven = GetSolutionItem(6,7);
+        sixEight = GetSolutionItem(6,8);
+        
+        sevenZero = GetSolutionItem(7,0);
+        sevenOne = GetSolutionItem(7,1);
+        sevenTwo = GetSolutionItem(7,2);
+        sevenThree = GetSolutionItem(7,3);
+        sevenFour = GetSolutionItem(7,4);
+        sevenFive = GetSolutionItem(7,5);
+        sevenSix = GetSolutionItem(7,6);
+        sevenSeven = GetSolutionItem(7,7);
+        sevenEight = GetSolutionItem(7,8);
+        
+        eightZero = GetSolutionItem(8,0);
+        eightOne = GetSolutionItem(8,1);
+        eightTwo = GetSolutionItem(8,2);
+        eightThree = GetSolutionItem(8,3);
+        eightFour = GetSolutionItem(8,4);
+        eightFive = GetSolutionItem(8,5);
+        eightSix = GetSolutionItem(8,6);
+        eightSeven = GetSolutionItem(8,7);
+        eightEight = GetSolutionItem(8,8);
+
+
+//from printline
+switch(lineNumber)
+        {
+            case 1:
+                
+                firstThree = BuildSetOfThree(gameBoard[0][0]
+                                            , gameBoard[0][1]
+                                            , gameBoard[0][2]);
+                
+                secondThree = BuildSetOfThree(zeroThree, zeroFour, zeroFive);
+                thirdThree = BuildSetOfThree(zeroSix, zeroSeven, zeroEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 2:
+                firstThree = BuildSetOfThree(oneZero, oneOne, oneTwo); 
+                secondThree = BuildSetOfThree(oneThree, oneFour, oneFive);
+                thirdThree = BuildSetOfThree(oneSix, oneSeven, oneEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 3:
+                firstThree = BuildSetOfThree(twoZero, twoOne, twoTwo); 
+                secondThree = BuildSetOfThree(twoThree, twoFour, twoFive);
+                thirdThree = BuildSetOfThree(twoSix, twoSeven, twoEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 4:
+                firstThree = BuildSetOfThree(threeZero, threeOne, threeTwo); 
+                secondThree = BuildSetOfThree(threeThree, threeFour, threeFive);
+                thirdThree = BuildSetOfThree(threeSix, threeSeven, threeEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 5:
+                firstThree = BuildSetOfThree(fourZero, fourOne, fourTwo); 
+                secondThree = BuildSetOfThree(fourThree, fourFour, fourFive);
+                thirdThree = BuildSetOfThree(fourSix, fourSeven, fourEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 6:
+                firstThree = BuildSetOfThree(fiveZero, fiveOne, fiveTwo); 
+                secondThree = BuildSetOfThree(fiveThree, fiveFour, fiveFive);
+                thirdThree = BuildSetOfThree(fiveSix, fiveSeven, fiveEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 7:
+                firstThree = BuildSetOfThree(sixZero, sixOne, sixTwo); 
+                secondThree = BuildSetOfThree(sixThree, sixFour, sixFive);
+                thirdThree = BuildSetOfThree(sixSix, sixSeven, sixEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 8:
+                firstThree = BuildSetOfThree(sevenZero, sevenOne, sevenTwo); 
+                secondThree = BuildSetOfThree(sevenThree, sevenFour, sevenFive);
+                thirdThree = BuildSetOfThree(sevenSix, sevenSeven, sevenEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+            case 9:
+                firstThree = BuildSetOfThree(eightZero, eightOne, eightTwo); 
+                secondThree = BuildSetOfThree(eightThree, eightFour, eightFive);
+                thirdThree = BuildSetOfThree(eightSix, eightSeven, eightEight);
+                System.out.printf(GridLine, firstThree
+                                            , secondThree
+                                            , thirdThree);
+                break;
+        }
+
+/*
+        System.out.println(Stars(50));
+        PrintGridLine(1);
+        PrintGridLine(2);
+        PrintGridLine(3);
+        
+        PrintGridLine(4);
+        PrintGridLine(5);
+        PrintGridLine(6);
+        System.out.println(HORIZONTAL_LINE);
+        PrintGridLine(7);
+        PrintGridLine(8);
+        PrintGridLine(9);
+        System.out.println(Stars(50));
+        */
+
+/**
+     * Print a specific grid line by lineNumber
+     * @param lineNumber
+     */
+    /*
+    public static void PrintGridLine(int lineNumber)
+    {
+        String firstThree;
+        String secondThree;
+        String thirdThree;
+        int row = lineNumber - 1;
+        firstThree = BuildSetOfThree(gameBoard[row][0]
+                                        , gameBoard[row][1]
+                                        , gameBoard[row][2]);
+        secondThree = BuildSetOfThree(gameBoard[row][3]
+                                        , gameBoard[row][4]
+                                        , gameBoard[row][5]);
+        thirdThree = BuildSetOfThree(gameBoard[row][6]
+                                        , gameBoard[row][7]
+                                        , gameBoard[row][8]);
+        
+        System.out.printf(GridLine, firstThree
+                                , secondThree
+                                , thirdThree);
+    }
+    */
+    /**
+     * Build a set of three numbers
+     * @param x the first number
+     * @param y the second number
+     * @param z the third number
+     * @return 
+     */
+    /*
+    public static String BuildSetOfThree(String x, String y, String z)
+    {
+        return String.format(GridData, x, y, z);
+    }
+    */
+    

@@ -1,0 +1,18 @@
+Technically, we need to continue our testing through to contain
+tests for the Sudoku Grid and the Sudoku Generator.
+
+However, these tests are complex and would take a great deal of work to write
+along with full understanding of the SudokuGenerator class.
+
+Additionally, we are going to be revamping the solution in a couple of sections
+to use a full GUI, rather than the standard out for printing and gameplay.
+
+Therefore, as the code required would be somewhat similar and somewhat out of the
+scope of this course, and the impending changes to the overall structure of 
+Sudoku would make the tests require refactoring to handle the new GUI, we will
+skip these tests for now. Feel free to mess around with them on your own, writing
+tests to validate the SudokuGrid and SudokuGenerator methods.
+
+Also note: We have to fix the classes to prevent bad input, as noted in the test
+for the SudokuGridCell.  We should not be able to accept -1 as a valid value.
+How might we go about preventing these bad inputs?

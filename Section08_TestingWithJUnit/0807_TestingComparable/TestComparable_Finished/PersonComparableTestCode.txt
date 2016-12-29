@@ -1,0 +1,470 @@
+@Test
+	public void testComparable()
+	{
+		Object o = null;						//null object
+        Object o2 = "This is really a String";  //a String, not a Person
+        Person p = new Person();   				//used to compare to myPerson
+        int expected1 = 1;						//expected when myPerson > p
+        int expected0 = 0;						//expected when myPerson == p
+        int expectedm1 = -1;					//expected when myPerson < p
+        
+        //cannot compare against null, so we are coding this to
+        //return 1.  We have to remember here -- this is how we
+        //coded it for this system.  It could have been different elsewhere!
+        assertEquals("Null value should be less than our person!"
+                        , expected1, myPerson.compareTo(o));
+        //cannot compare against non person, we stated that person
+        //would be greater if the value is null or not a person
+        //so again this is arbitrary based on our system
+        assertEquals("Non-person should be less than our person!"
+                        , expected1, myPerson.compareTo(o2));
+        
+        /****************Add this at the top, right after the two asserts 
+         				 for null and non-person objects */
+        //check the case when both are instantiated but nothing is set
+        assertEquals("Person objects should be equal when both are instantiated"
+        			+ " and no properties are set"
+        			, 0, myPerson.compareTo(p));
+        assertEquals("Person objects should be equal when both are instantiated"
+	    			+ " and no properties are set"
+	    			, 0, p.compareTo(myPerson));
+    
+        
+        //let's check the case where one side has something set and the other side has nothing set:
+        //last name set on one
+        myPerson.setLastName(lastName);
+        assertEquals("Person with nothing set should be less than person with last name set"
+        				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than person with last name set"
+        				, expectedm1, p.compareTo(myPerson));	
+        myPerson.setLastName(null);
+        
+        //first name set on one
+        myPerson.setFirstName(firstName);
+        assertEquals("Person with nothing set should be less than person with first name set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than person with first name set"
+				, expectedm1, p.compareTo(myPerson));	
+        myPerson.setFirstName(null);
+        
+        //age set on one
+        myPerson.setAge(age);
+        assertEquals("Person with nothing set should be less than person with age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than person with age set"
+				, expectedm1, p.compareTo(myPerson));	
+        
+        
+        //no ln set, first name set on left, no ln, no fn set on right. age irrellevant
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        assertEquals("Person with nothing set should be less than "
+        				+ "person with first name and age set"
+        				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than "
+        				+ "person with first name and age set"
+    					, expectedm1, p.compareTo(myPerson));
+        p.setAge(age);
+        assertEquals("Person with only age set should be less than "
+				+ "person with first name and age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with only age set should be less than "
+				+ "person with first name and age set"
+				, expectedm1, p.compareTo(myPerson));
+        
+        //no ln, fn set on both, left has age, right does not
+        myPerson.setLastName(null);
+        p.setLastName(null);
+        myPerson.setFirstName(firstName);
+        p.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setAge(0);
+        assertEquals("Person with no last name, first name set, and no age set "
+				+ "should be less than person with no last name, first name set, and age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with no last name, first name set, and no age set "
+				+ "should be less than person with no last name, first name set, and age set"
+				, expectedm1, p.compareTo(myPerson));
+        
+        
+        //left has last name, right does not.  Anything else set would be irrellevant in this case
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with no last name set "
+					+ "should be less than person with last name set"
+					, expected1, myPerson.compareTo(p));
+        assertEquals("Person with no last name set "
+					+ "should be less than person with last name set"
+					, expectedm1, p.compareTo(myPerson));
+        
+        //left and right have a last name.  Left has first name, right does not. Age is irrellevant
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set but no first name set"
+				+ "should be less than person with last and first name set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name set but no first name set"
+				+ "should be less than person with last and first name set"
+				, expectedm1, p.compareTo(myPerson));
+    
+        //left and right have a last name. Neither has a first name.  One side has age
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set but no first name set and no age set"
+				+ "should be less than person with last name, no first name, and an age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name set but no first name set and no age set"
+				+ "should be less than person with last name, no first name, and an age set"
+				, expectedm1, p.compareTo(myPerson));
+        
+        // all versus one or more not set
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with one or more properties not set "
+				+ "should be less than person with all properties set "
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with one or more properties not set "
+				+ "should be less than person with all properties set "
+				, expectedm1, p.compareTo(myPerson));
+        
+        
+        /************************* 
+         * Now check for the ones that have identical properties set
+         * but maybe not identical values!!!!!!!!!!!
+         *************************/
+        
+        /**************************** JUST AGE SET *******************************/
+        //just age set on both sides
+        myPerson.setLastName(null);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(null);
+        p.setAge(age);
+        assertEquals("Person with just age set "
+				+ "should be equal to person with just age set "
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with just age set "
+				+ "should be equal to person with just age set "
+				, expected0, p.compareTo(myPerson));
+        
+        //age greater on left
+        myPerson.setLastName(null);
+        myPerson.setFirstName(null);
+        myPerson.setAge(100);
+        p.setLastName(null);
+        p.setFirstName(null);
+        p.setAge(age);
+        assertEquals("Person with age set higher should be greater than person "
+        		+ "with age set lower"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with age set higher should be greater than person "
+        		+ "with age set lower"
+				, expectedm1, p.compareTo(myPerson));
+        
+        //age greater on right
+        myPerson.setLastName(null);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(null);
+        p.setAge(100);
+        assertEquals("Person with age set lower should be less than person "
+        		+ "with age set higher"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with age set lower should be less than person "
+        		+ "with age set higher"
+				, expected1, p.compareTo(myPerson));
+        
+        /***************** JUST FIRST NAMES SET *********************************/
+        //just age set on both sides
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with just first name set "
+				+ "should be equal to person with just first name set "
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with just first name set "
+				+ "should be equal to person with just first name set "
+				, expected0, p.compareTo(myPerson));
+        
+        //age greater on left
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(null);
+        p.setFirstName("Andrew");
+        p.setAge(0);
+        assertEquals("Person with first name set higher should be greater than person "
+        		+ "with first name set higher"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with first name set higher should be greater than person "
+        		+ "with first name set higher"
+				, expectedm1, p.compareTo(myPerson));
+        
+        //age greater on right
+        myPerson.setLastName(null);
+        myPerson.setFirstName("Andrew");
+        myPerson.setAge(0);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with first name set lower should be less than person "
+        		+ "with first name set higher"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with first name set lower should be greater than person "
+        		+ "with first name set higher"
+				, expected1, p.compareTo(myPerson));
+        
+
+        /******************* BOTH FIRST NAME AND AGE ARE SET *************************
+         					 ORDER OF PRECEDENCE = FIRST NAME THEN AGE  
+         					 AGE WILL ONLY MATTER WHEN FIRST NAMES ARE EQUAL
+         					 FIRST NAME EQUALITY IS ALREADY TESTED
+         					 SO JUST NEED TO TEST AGE EQUALITY         
+         *****************************************************************************/
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(10);
+        assertEquals("Person with first name set equal and age set higher "
+        		+ "should be greater than person with lower age"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with first name set equal and age set higher "
+        		+ "should be greater than person with lower age"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(10);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with first name set equal and age set lower "
+        		+ "should be lesser than person with greater age"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with first name set equal and age set lower "
+        		+ "should be lesser than person with greater age"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with first name set equal and age set equal "
+        		+ "should be equal to person with equal first name and age"
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with first name set equal and age set equal "
+        		+ "should be equal to person with equal first name and age"
+				, expected0, p.compareTo(myPerson));
+        
+        
+        /************************** BOTH ONLY HAVE LAST NAME ************************/
+        myPerson.setLastName("Zimmer");
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set higher "
+        		+ "should be greater than person with lower last name"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name set higher "
+        		+ "should be greater than person with lower last name"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName("Andrews");
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set lower "
+        		+ "should be lesser than person with higher last name"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name set lower "
+        		+ "should be lesser than person with higher last name"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with only last name set should be equal"
+        		+ " to another person with only last name set when both"
+        		+ " last names are the same"
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with only last name set should be equal"
+        		+ " to another person with only last name set when both"
+        		+ " last names are the same"
+				, expected0, p.compareTo(myPerson));
+        
+        /********************** BOTH LAST NAMES SET, BOTH AGES SET, NO FN SET **********/
+        /************** AGAIN: IF LAST NAMES ARE NOT EQUAL, THE AGE IS IRRELLEVANT 
+         						SO WE ONLY NEED TO ADD TESTS FOR THE AGE EQUALITY TESTING
+        ********************************************************************************/
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(100);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(age);
+        assertEquals("Person with last name equal, no first name set,and greater age "
+        		+ "should be greater than person with last name equal, no first name"
+        		+ ", and lesser age"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, no first name set,and greater age "
+        		+ "should be greater than person with last name equal, no first name"
+        		+ ", and lesser age"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(100);
+        assertEquals("Person with last name equal, no first name set,and lesser age "
+        		+ "should be lesser than person with last name equal, no first name"
+        		+ ", and greater age"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, no first name set,and lesser age "
+        		+ "should be lesser than person with last name equal, no first name"
+        		+ ", and greater age"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with only last name set should be equal"
+        		+ " to another person with only last name set when both"
+        		+ " last names are the same"
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with only last name set should be equal"
+        		+ " to another person with only last name set when both"
+        		+ " last names are the same"
+				, expected0, p.compareTo(myPerson));
+        
+        
+        /***** BOTH LAST NAMES SET, BOTH FIRST NAMES SET, AGES NOT SET ******
+         * 			HERE WE JUST NEED TO ADD TESTS FOR AGE EQUALITY
+         ********************************************************************/
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName("Andrew");
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with last name equal, lesser name, and no age set "
+        		+ "should be less than than person with last name equal, greater first name"
+        		+ ", and no age set"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, lesser name, and no age set "
+        		+ "should be less than than person with last name equal, greater first name"
+        		+ ", and no age set"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName("Andrew");
+        p.setAge(0);
+        assertEquals("Person with last name equal, greater name, and no age set "
+        		+ "should be greater than than person with last name equal, lesser first name"
+        		+ ", and no age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, greater name, and no age set "
+        		+ "should be greater than than person with last name equal, lesser first name"
+        		+ ", and no age set"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with equal last name and first name but no age set "
+        		+ "should be equal to person with equal last name and first name "
+        		+ "but no age set"
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with equal last name and first name but no age set "
+        		+ "should be equal to person with equal last name and first name "
+        		+ "but no age set"
+				, expected0, p.compareTo(myPerson));
+        
+        /****************************************************************************
+         * EVERYTHING SET, ONLY THING WE NEED TO TEST IS AGE EQUALITY
+         ****************************************************************************/
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(100);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with last name equal, first name equal, and age set higher "
+        		+ "should be greater than person with last name equal, first name equal "
+        		+ ", and age set lower"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, first name equal, and age set higher "
+        		+ "should be greater than person with last name equal, first name equal "
+        		+ ", and age set lower"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(100);
+        assertEquals("Person with last name equal, first name equal, and age set lower "
+        		+ "should be less than person with last name equal, first name equal "
+        		+ ", and age set higher"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, first name equal, and age set lower "
+        		+ "should be less than person with last name equal, first name equal "
+        		+ ", and age set higher"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Two person objects with all three properties set equally"
+        		+ "should be equal "
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Two person objects with all three properties set equally"
+        		+ "should be equal "
+				, expected0, p.compareTo(myPerson));
+	}

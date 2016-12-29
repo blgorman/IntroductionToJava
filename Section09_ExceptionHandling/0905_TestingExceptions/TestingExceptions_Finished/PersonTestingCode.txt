@@ -1,0 +1,59 @@
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetInvalidFirstName()
+	{
+		//first, make sure fails if valid input
+		myPerson.setFirstName(firstName);	
+		
+		//then allow the test to fail as expected
+		myPerson.setFirstName(invalidName);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetInvalidFirstNameConstructor()
+	{
+		//first, make sure fails if valid input
+		myPerson = new Person(firstName, lastName, age);
+		
+		//then allow the test to fail as expected
+		myPerson = new Person(invalidName, lastName, age);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetInvalidLastName()
+	{
+		//first, make sure fails if valid input
+		myPerson.setLastName(lastName);	
+		
+		//then allow the test to fail as expected
+		myPerson.setLastName(invalidName);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetInvalidLastNameConstructor()
+	{
+		//first, make sure fails if valid input
+		myPerson = new Person(firstName, lastName, age);
+		
+		//then allow the test to fail as expected
+		myPerson = new Person(firstName, invalidName, age);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetInvalidAge()
+	{
+		//first, make sure fails if valid input
+		myPerson.setAge(age);	
+		
+		//then allow the test to fail as expected
+		myPerson.setAge(-1);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetInvalidAgeConstructor()
+	{
+		//first, make sure fails if valid input
+		myPerson = new Person(firstName, lastName, age);
+		
+		//then allow the test to fail as expected
+		myPerson = new Person(firstName, lastName, -1);
+	}

@@ -1,0 +1,65 @@
+	/**
+     * Set the person's First name.
+     * @param value the first name as a String
+     */
+    public void setFirstName(String value)
+    {
+    	if (!ValidateNameString(value))
+    	{
+    		throw new IllegalArgumentException("Name must "
+    				+ "only contain characters. Symbols, numbers, "
+    				+ "and punctuation are not allowed.");
+    	}
+        _firstName = value;
+    }
+
+
+	/**
+     * Set the person's Last name.
+     * @param value the last name as a String
+     */
+    public void setLastName(String value)
+    {
+    	if (!ValidateNameString(value))
+    	{
+    		throw new IllegalArgumentException("Name must "
+    				+ "only contain characters. Symbols, numbers, "
+    				+ "and punctuation are not allowed.");
+    	}
+        _lastName = value;
+    }
+    
+    
+    
+ 	/**
+     * Set the age of the person.
+     * @param value the age of the person.
+     */
+    public void setAge(int value)
+    {
+    	if (value < 0)
+    	{
+    		throw new IllegalArgumentException("Age must be greater than "
+    				+ "or equal to 0");
+    	}
+        _age = value;
+    }
+
+
+
+    /**
+     * Validate a String contains only characters.
+     * @param nameToValidate String to check
+     * @return true if pattern matches, else false.
+     */
+    private boolean ValidateNameString(String nameToValidate)
+    {
+    	//allow null and "" at this point...
+    	if (nameToValidate != null && !nameToValidate.equals(""))
+    	{
+	    	//regex to validate String
+	    	String pattern = "[A-Za-z]*";
+	    	return nameToValidate.matches(pattern);
+    	}
+    	return true;
+    }

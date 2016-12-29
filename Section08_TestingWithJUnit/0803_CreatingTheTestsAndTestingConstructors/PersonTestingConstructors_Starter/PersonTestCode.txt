@@ -1,0 +1,17 @@
+
+	@Test
+	public void testConstructors() {
+		Person p1 = null;
+		assertNull("Person was not null as expected", p1);
+		
+		Person p2 = new Person();
+		assertNotNull("Person was not instantiated as expected", p2);
+		
+		Person p3 = new Person("James", "Kirk", 50);
+		assertNotNull("Person was not instantiated as expected", p3);
+		
+		//TODO: Write the tests to make sure the constructor 
+		//      values are set as expected
+		fail("Explicit constructor values not set as expected");
+	}
+

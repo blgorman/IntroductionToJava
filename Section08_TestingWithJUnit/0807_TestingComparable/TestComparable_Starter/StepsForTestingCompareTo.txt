@@ -1,0 +1,1102 @@
+1) Create the test case for testComparable. Add the common variables for the tests.
+
+	@Test
+	public void testComparable()
+	{
+		Object o = null;						//null object
+        Object o2 = "This is really a String";  //a String, not a Person
+        Person p = new Person();   				//used to compare to myPerson
+        int expected1 = 1;						//expected when myPerson > p
+        int expected0 = 0;						//expected when myPerson == p
+        int expectedm1 = -1;					//expected when myPerson < p
+        
+    }
+
+    
+2) Add the two tests to make sure the Person is greater than a null input or a non-person-object input:
+
+		//cannot compare against null, so we are coding this to
+        //return 1.  We have to remember here -- this is how we
+        //coded it for this system.  It could have been different elsewhere!
+        assertEquals("Null value should be less than our person!"
+                        , expected1, myPerson.compareTo(o));
+        //cannot compare against non person, we stated that person
+        //would be greater if the value is null or not a person
+        //so again this is arbitrary based on our system
+        assertEquals("Non-person should be less than our person!"
+                        , expected1, myPerson.compareTo(o2));
+
+                        
+3) Uncomment Comparable interface.  Implement the Comparable interface returning some bad number, like -99.
+
+		public class Person implements Comparable
+		{
+		
+			//...
+			
+			/* override comparable so can compare person objects for sorting.
+		     * @param o -- the object to compare this person to
+		     * @return -1 if less than, 0 if equal, 1 if greater than
+		     */
+		    public int compareTo(Object o)
+		    {
+		    	return -99;
+		    }
+		}
+
+
+4) Run the tests. See the failure.
+
+5) Add the code to return 1 if null or non-person is the input to the comparable method.
+		//make sure that null or non-person-objects are less than
+    	//our Person object
+    	if ((o == null ) || !(o instanceof Person))
+    	{
+    		return 1;
+    	}
+    	
+   //run the tests and see them succeed
+   
+6) In Person: Cast the object in comparable to a Person object for further use
+		Person p = (Person)o;
+		
+7) Write tests to determine greater than if one side has a last name and the other doesn't
+    as well as the flip of that test to get less than as well
+    	//let's check the case where one side has something set and the other side has nothing set:
+        //last name set on one
+        myPerson.setLastName(lastName);
+        assertEquals("Person with nothing set should be less than person with last name set"
+        				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than person with last name set"
+        				, expectedm1, p.compareTo(myPerson));	
+        myPerson.setLastName(null);
+        
+        //first name set on one
+        myPerson.setFirstName(firstName);
+        assertEquals("Person with nothing set should be less than person with first name set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than person with first name set"
+				, expectedm1, p.compareTo(myPerson));	
+        myPerson.setFirstName(null);
+        
+        //age set on one
+        myPerson.setAge(age);
+        assertEquals("Person with nothing set should be less than person with age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than person with age set"
+				, expectedm1, p.compareTo(myPerson));
+        				
+        //run the tests to see them fail
+		
+8) Set up variables in the test to determine the state of each side of the equation
+	
+    	boolean thisLastNameNull = this.getLastName() == null;
+    	boolean thisFirstNameNull = this.getFirstName() == null;
+    	boolean thisAgeZero = this.getAge() == 0;
+    	boolean objLastNameNull = p.getLastName() == null;
+    	boolean objFirstNameNull = p.getFirstName() == null;
+    	boolean objAgeZero = p.getAge() == 0;
+    	
+9) Set up the check for case 1, where one side has any property set but the other side has no properties set
+		
+		//case 1: one or more set on one side; nothing set on other side
+    	//one left side not null, right side all null
+    	if ((!thisLastNameNull || !thisFirstNameNull || !thisAgeZero)
+    			&& (objLastNameNull && objFirstNameNull && objAgeZero))
+    	{
+    		//left side is greater
+    		return 1;
+    	}
+    	//flip side is one set on the right side and none set on the left side
+    	if ((thisLastNameNull && thisFirstNameNull && thisAgeZero) 
+    		&& (!objLastNameNull || !objFirstNameNull || !objAgeZero))
+    	{
+    		//right side is greater
+    		return -1;
+    	}
+
+10) Run the tests to see them succeed.  We have now handled all of the case 1 situations
+
+11) Set up the tests to determine if last name not set, fn is set, age is either set or not set on left; no ln, no fn; age set or not set on right
+		//no ln set, first name set on left, no ln, no fn set on right. age irrellevant
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        assertEquals("Person with nothing set should be less than "
+        				+ "person with first name and age set"
+        				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with nothing set should be less than "
+        				+ "person with first name and age set"
+    					, expectedm1, p.compareTo(myPerson));
+        p.setAge(age);
+        assertEquals("Person with only age set should be less than "
+				+ "person with first name and age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with only age set should be less than "
+				+ "person with first name and age set"
+				, expectedm1, p.compareTo(myPerson));
+				
+	    //run tests to see them fail
+
+12) set up the code to determine if last name not set, fn is set on one side or the other; age is irrelevant
+		
+		//both have no last name:
+    	if (thisLastNameNull && objLastNameNull)
+    	{
+    		if (!thisFirstNameNull && objFirstNameNull)
+    		{
+    			//left has first name set, right does not have anything set
+    			return 1;
+    		}
+    		else if (thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//right has first name
+    			return -1;
+    		}
+    	}
+	
+	   //run tests to see them succeed
+	   
+13) set up the case 3 tests to handle the case where neither side has a last name, both have a first name set, and left has an age
+
+		//no ln, fn set on both, left has age, right does not
+        myPerson.setLastName(null);
+        p.setLastName(null);
+        myPerson.setFirstName(firstName);
+        p.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setAge(0);
+        assertEquals("Person with no last name, first name set, and no age set "
+				+ "should be less than person with no last name, first name set, and age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with no last name, first name set, and no age set "
+				+ "should be less than person with no last name, first name set, and age set"
+				, expectedm1, p.compareTo(myPerson));
+				
+		//run tests and watch them fail
+				
+14) Add the case for age set/not set inside the no last name and first name set condition
+
+		//both have no last name:
+    	if (thisLastNameNull && objLastNameNull)
+    	{
+    		if (!thisFirstNameNull && objFirstNameNull)
+    		{
+    			//left has first name set, right does not have anything set
+    			return 1;
+    		}
+    		else if (thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//right has a first name set, left does not have anything set
+    			return -1;
+    		}
+    		else if (!thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//both have a first name set (not yet compared)
+    			
+    			//compare: are ages set or not set
+    			if (!thisAgeZero && objAgeZero)
+    			{
+    				//left side has age, right side does not
+    				return 1;
+    			}
+    			else if (thisAgeZero && !objAgeZero)
+    			{
+    				//right side set, left side not set for age
+    				return -1;
+    			}	
+    		}
+    	}
+    	
+  		//run tests and watch them succeed
+  		
+ 15) Add the tests for the case where one side has a last set but the other doesn't
+ 
+ 		//left has last name, right does not.  Anything else set would be irrellevant in this case
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with no last name set "
+					+ "should be less than person with last name set"
+					, expected1, myPerson.compareTo(p));
+        assertEquals("Person with no last name set "
+					+ "should be less than person with last name set"
+					, expectedm1, p.compareTo(myPerson));
+					
+		//run the tests and watch them fail
+		
+16) Add the code to handle the case where a last name is set on left or right but not on the other side
+
+		//left has last name, right does not
+    	if (!thisLastNameNull && objLastNameNull)
+    	{
+    		return 1;
+    	}
+    	//right has last name, left does not
+    	if (thisLastNameNull && !objLastNameNull)
+    	{
+    		return -1;
+    	}
+    	
+    	//run tests and watch them succeed.  Note, this case is easy to determine, so move code to exist 
+    	//before the both last names being null large if/else block
+    	
+17) Add the tests for the case where both have last set, one side has first set, age won't matter
+
+		//left and right have a last name.  Left has first name, right does not. Age is irrellevant
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set but no first name set"
+				+ "should be less than person with last and first name set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name set but no first name set"
+				+ "should be less than person with last and first name set"
+				, expectedm1, p.compareTo(myPerson));
+				
+		//run the tests and watch them fail
+
+18) Add the code to handle the case where both have a last name but only one side has a first name, age is irrelevant.  Put this code after
+	the two checks for last name and before both last names are null code
+	
+		//left has last name, right does not
+    	if (!thisLastNameNull && objLastNameNull)
+    	{
+    		return 1;
+    	}
+    	//right has last name, left does not
+    	if (thisLastNameNull && !objLastNameNull)
+    	{
+    		return -1;
+    	}
+    	
+    	//both have a last name:
+    	if (!thisLastNameNull && !objLastNameNull)
+    	{
+    		if (!thisFirstNameNull && objFirstNameNull)
+    		{
+    			//left has first name set, right does not have anything set
+    			return 1;
+    		}
+    		else if (thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//right has a first name set, left does not
+    			return -1;
+    		}
+    	}
+    	
+    	//both have no last name:
+    	if (thisLastNameNull && objLastNameNull)
+    	{
+    		if (!thisFirstNameNull && objFirstNameNull)
+    		//.......
+ 
+ 
+ 		//code above shown to help with order.  Note the start of some redundancy in code above
+ 		//run the tests and watch them pass
+ 		
+ 19) Add the tests to handle the case where both have a last name, but no first name, and one side has an age set
+ 
+ 		//left and right have a last name. Neither has a first name.  One side has age
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set but no first name set and no age set"
+				+ "should be less than person with last name, no first name, and an age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name set but no first name set and no age set"
+				+ "should be less than person with last name, no first name, and an age set"
+				, expectedm1, p.compareTo(myPerson));
+				
+		//run the tests and watch them fail
+		
+20) Add the code to handle the case where both have a last name, no first name, and one side has an age:
+
+		//both have a last name:
+    	if (!thisLastNameNull && !objLastNameNull)
+    	{
+    		if (!thisFirstNameNull && objFirstNameNull)
+    		{
+    			//left has first name set, right does not have anything set
+    			return 1;
+    		}
+    		else if (thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//right has a first name set, left does not
+    			return -1;
+    		}
+    		else if (thisFirstNameNull && objFirstNameNull)
+    		{
+    			//neither has a first name
+    			//now look at age
+    			if (!thisAgeZero && objAgeZero)
+    			{
+    				//left side has an age, right does not
+    				return 1;
+    			}
+    			else if (thisAgeZero && !objAgeZero)
+    			{
+    				//right side has an age, left side does not
+    				return -1;
+    			}
+    		}
+    	}
+    	
+    	//run the tests and watch them succeed
+    	
+21) Add the tests to handle the case where one side has all set but the other has one or more not set
+		
+		// all versus one or more not set
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with one or more properties not set "
+				+ "should be less than person with all properties set "
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with one or more properties not set "
+				+ "should be less than person with all properties set "
+				, expectedm1, p.compareTo(myPerson));
+				
+		//run the tests and watch them fail
+		
+22) Add the code to handle the case where one side has all set but the other side has one or more not set.  Place the code right after the first set of
+    cases for all or nothing:
+    
+    	/**** EXISTING CODE SHOWN ONLY TO HELP YOU UNDERSTAND WHERE I'M TELLING YOU TO PUT IT
+		//case 1: one or more set on one side; nothing set on other side
+    	//one left side not null, right side all null
+    	if ((!thisLastNameNull || !thisFirstNameNull || !thisAgeZero)
+    			&& (objLastNameNull && objFirstNameNull && objAgeZero))
+    	{
+    		//left side is greater
+    		return 1;
+    	}
+    	//flip side is one set on the right side and none set on the left side
+    	if ((thisLastNameNull && thisFirstNameNull && thisAgeZero) 
+    		&& (!objLastNameNull || !objFirstNameNull || !objAgeZero))
+    	{
+    		//right side is greater
+    		return -1;
+    	}
+    	********************************************************************/
+    	
+    	//all set on one side, one or more not set on the other side
+    	if ((!thisLastNameNull && !thisFirstNameNull && !thisAgeZero) 
+    			&& (objLastNameNull || objFirstNameNull || objAgeZero))
+    	{
+    		//left side is full, right side has one or more missing
+    		return 1;
+    	}
+    	//flip it
+    	if ((thisLastNameNull || thisFirstNameNull || thisAgeZero)
+    		&& (!objLastNameNull && !objFirstNameNull && !objAgeZero))
+    	{
+    		return -1;
+    	}
+		
+23) TAKE A BREAK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	At this point we have completed everything to the point of cases where the objects don't have identical fields set
+	The rest of the code should be possible inside of blocks already created, because either both will have a lastname or both will not
+	have a last name, both will have a first or both will not have a first, both will have an age or both will not...
+	but both blocks need to be considered, because we have symmetry with both first names being set in both cases when both have a last name or both
+	don't have a last name.  So we need to be mindful of all of this in our testing and writing the remainder of our code.
+	(i.e. 001/101/111 are all age checks inside existing blocks on both trees)
+	
+24) Add the tests for the case when both have nothing set at all
+		/****************Add this at the top, right after the two asserts 
+         				 for null and non-person objects */
+		//check the case when both are instantiated but nothing is set
+        assertEquals("Person objects should be equal when both are instantiated"
+        			+ " and no properties are set"
+        			, 0, myPerson.compareTo(p));
+        assertEquals("Person objects should be equal when both are instantiated"
+	    			+ " and no properties are set"
+	    			, 0, p.compareTo(myPerson));
+	    			
+	    //run the tests and watch them fail
+        
+25) Add the code for both sides unset:
+		/******************   CODE FOR REFERENCE ALREADY EXISTS ***************/
+		//both have no last name:
+    	if (thisLastNameNull && objLastNameNull)
+    	{
+    		if (!thisFirstNameNull && objFirstNameNull)
+    		{
+    			//left has first name set, right does not have anything set
+    			return 1;
+    		}
+    		else if (thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//right has a first name set, left does not have anything set
+    			return -1;
+    		}
+    		else if (!thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//both have a first name set (not yet compared)
+    			
+    			//compare: are ages set or not set
+    			if (!thisAgeZero && objAgeZero)
+    			{
+    				//left side has age, right side does not
+    				return 1;
+    			}
+    			else if (thisAgeZero && !objAgeZero)
+    			{
+    				//right side set, left side not set for age
+    				return -1;
+    			}	
+    		}
+    	/****************** PLACE CODE HERE ***********************************/
+    		else if (thisFirstNameNull && objFirstNameNull)
+    		{
+    			if (thisAgeZero && objAgeZero)
+    			{
+    				//everything is unset for both objects
+    				//so they are equal
+    				return 0;
+    			}
+    		}
+    	//...
+    	
+    	//run the tests and watch them pass
+    
+26) Add the tests for just age set on both sides to compare the two ages
+		//add at the bottom of the test file
+		/************************* 
+         * Now check for the ones that have identical properties set
+         * but maybe not identical values!!!!!!!!!!!
+         *************************/
+        //just age set on both sides
+        myPerson.setLastName(null);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(null);
+        p.setAge(age);
+        assertEquals("Person with just age set "
+				+ "should be equal to person with just age set "
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with just age set "
+				+ "should be equal to person with just age set "
+				, expected0, p.compareTo(myPerson));
+        
+        //age greater on left
+        myPerson.setLastName(null);
+        myPerson.setFirstName(null);
+        myPerson.setAge(100);
+        p.setLastName(null);
+        p.setFirstName(null);
+        p.setAge(age);
+        assertEquals("Person with age set higher should be greater than person "
+        		+ "with age set lower"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with age set higher should be greater than person "
+        		+ "with age set lower"
+				, expectedm1, p.compareTo(myPerson));
+        
+        //age greater on right
+        myPerson.setLastName(null);
+        myPerson.setFirstName(null);
+        myPerson.setAge(age);
+        p.setLastName(null);
+        p.setFirstName(null);
+        p.setAge(100);
+        assertEquals("Person with age set lower should be less than person "
+        		+ "with age set higher"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with age set lower should be less than person "
+        		+ "with age set higher"
+				, expected1, p.compareTo(myPerson));	
+	
+		//run the tests and watch them fail
+		
+27) Add the code to compare the ages when just the ages are set:
+			/**************************  this code is in place ************/
+			else if (thisFirstNameNull && objFirstNameNull)
+    		{
+    			if (thisAgeZero && objAgeZero)
+    			{
+    				//everything is unset for both objects
+    				//so they are equal
+    				return 0;
+    			}
+    	    /*************************************************************/
+    			else
+    			{
+    				//just age set on both sides, compare and return
+    				//using Integer compare to (can't compareTo on primitive int)
+    				Integer left = this.getAge();
+    				Integer right = p.getAge();
+    				return left.compareTo(right);
+    			}
+    			
+    		//.....
+    		//run the tests and watch them pass
+    		
+28) Add the tests to compare when just the first names are set
+		/***************** JUST FIRST NAMES SET *********************************/
+        //just first name set on both sides
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with just first name set "
+				+ "should be equal to person with just first name set "
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with just first name set "
+				+ "should be equal to person with just first name set "
+				, expected0, p.compareTo(myPerson));
+        
+        //first name greater on left
+        myPerson.setLastName(null);
+        myPerson.setFirstName("Andrew");
+        myPerson.setAge(0);
+        p.setLastName(null);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with first name set higher should be greater than person "
+        		+ "with first name set lower"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with first name set higher should be greater than person "
+        		+ "with first name set lower"
+				, expectedm1, p.compareTo(myPerson));
+        
+        //first name greater on right
+        myPerson.setLastName(null);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(null);
+        p.setFirstName("Andrew");
+        p.setAge(0);
+        assertEquals("Person with first name set lower should be less than person "
+        		+ "with first name set higher"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with first name set lower should be less than person "
+        		+ "with first name set higher"
+				, expected1, p.compareTo(myPerson));
+				
+		//run tests and watch them fail
+
+29) Add the code to compare when both sides have just first name set
+	but think about the fact that at some point, age will matter
+	but only if the first names are equal, so set a condition
+	around the return value if the first names are equal
+		/*************** code was already in place ********************/
+		else if (!thisFirstNameNull && !objFirstNameNull)
+		{
+			//compare first names.  We know they are not null
+			//so can rely on String equality.
+			_returnValue = this.getFirstName().compareTo(p.getFirstName());
+			
+			//set this to only run if the _returnValue == 0 (firstNames are equal)
+			if (_returnValue == 0)
+			{
+    			//compare: are ages set or not set
+    			if (!thisAgeZero && objAgeZero)
+    			{
+    				//left side has age, right side does not
+    				return 1;
+    			}
+    			else if (thisAgeZero && !objAgeZero)
+    			{
+    				//right side set, left side not set for age
+    				return -1;
+    			}	
+			}
+		}
+
+		
+		//run tests and watch them closely...!!!!!!!!!!
+		//we see now that something is wrong!  -9 != -1!
+		//we also see that 9 != 1
+		//now we need to add some code to make sure that 
+		//if the number is less than -1 then we just override it to -1.
+		//set a common variable for the result, then put the override at the end:
+		
+		private String _firstName;
+	    private String _lastName;
+	    private int _age;
+	    
+	    /*** ADD THIS ******/
+	    private int _returnValue = -99;
+	    
+	    /**
+	     * Person default Constructor.
+	     */
+		public Person()
+		{
+			//do nothing
+		}
+	
+		/*** Replace the return on the string compare to set the value of the _returnValue variable
+		else
+		{
+			//compare first names.  We know they are not null
+			//so can rely on String equality
+			_returnValue = this.getFirstName().compareTo(p.getFirstName());
+		}
+		
+		/*** add the override at the end of the method to set < -1 to -1 and > 1 to 1:
+		//make sure the return value is not < -1 and is not > 1
+    	if (_returnValue > 1)
+    	{
+    		return 1;
+    	}
+    	else if (_returnValue < -1)
+    	{
+    		_returnValue = -1;
+    	}
+    	
+    	return _returnValue;
+    }//end compareTo
+}//end Person
+
+		//run the tests and watch them pass
+		
+30) //code for testing when no LastName but have both first name and age set
+    //cases: 
+    //no last name, first names not equal, ages irrellevant -- already tested
+    //no last name, first names equal, ages equal -- needs testing
+	//no last name, first names equal, ages not equal -- needs testing
+	//what we find is that everything is tested except when first are equal AND ages are equal
+	//we put in code to set _returnValue to -99 inside the if statement.  This will make
+	//sure that the age equality fails, and this actually fails a test we already have
+	//just need to test for age inequality and age equality
+	//
+	
+	myPerson.setLastName(null);
+    myPerson.setFirstName(firstName);
+    myPerson.setAge(age);
+    p.setLastName(null);
+    p.setFirstName(firstName);
+    p.setAge(10);
+    assertEquals("Person with first name set equal and age set higher "
+    		+ "should be greater than person with lower age"
+			, expected1, myPerson.compareTo(p));
+    assertEquals("Person with first name set equal and age set higher "
+    		+ "should be greater than person with lower age"
+			, expectedm1, p.compareTo(myPerson));
+    
+    myPerson.setLastName(null);
+    myPerson.setFirstName(firstName);
+    myPerson.setAge(10);
+    p.setLastName(null);
+    p.setFirstName(firstName);
+    p.setAge(age);
+    assertEquals("Person with first name set equal and age set lower "
+    		+ "should be lesser than person with greater age"
+			, expectedm1, myPerson.compareTo(p));
+    assertEquals("Person with first name set equal and age set lower "
+    		+ "should be lesser than person with greater age"
+			, expected1, p.compareTo(myPerson));
+    
+    myPerson.setLastName(null);
+    myPerson.setFirstName(firstName);
+    myPerson.setAge(age);
+    p.setLastName(null);
+    p.setFirstName(firstName);
+    p.setAge(age);
+    assertEquals("Person with first name set equal and age set equal "
+    		+ "should be equal to person with equal first name and age"
+			, expected0, myPerson.compareTo(p));
+    assertEquals("Person with first name set equal and age set equal "
+    		+ "should be equal to person with equal first name and age"
+			, expected0, p.compareTo(myPerson));
+	
+	
+	
+31) Set the code for first names set and age set with first names equal but ages needing comparison
+	else if (!thisFirstNameNull && !objFirstNameNull)
+	{
+		//compare first names.  We know they are not null
+		//so can rely on String equality.
+		_returnValue = this.getFirstName().compareTo(p.getFirstName());
+		
+		if (_returnValue == 0)
+		{
+			//set _returnValue to a bad number
+			//to fail the test.  This breaks our code when ages
+			//are equal (breaks the just first name set test)
+			_returnValue = -99;
+			
+			//compare: are ages set or not set
+			if (!thisAgeZero && objAgeZero)
+			{
+				//left side has age, right side does not
+				return 1;
+			}
+			else if (thisAgeZero && !objAgeZero)
+			{
+				//right side set, left side not set for age
+				return -1;
+			}	
+			//here we need to return 0 if ages are equal
+			else
+			{
+				//using Integer compare to (can't compareTo on primitive int)
+				Integer left = this.getAge();
+				Integer right = p.getAge();
+				return left.compareTo(right); 
+			}
+		}
+	}
+
+32) Create the tests for both with last name as only property set to test equality
+	/************************** BOTH ONLY HAVE LAST NAME ************************/
+        myPerson.setLastName("Zimmer");
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set higher "
+        		+ "should be greater than person with lower last name"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name set higher "
+        		+ "should be greater than person with lower last name"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName("Andrews");
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with last name set lower "
+        		+ "should be lesser than person with higher last name"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name set lower "
+        		+ "should be lesser than person with higher last name"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(null);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(null);
+        p.setAge(0);
+        assertEquals("Person with only last name set should be equal"
+        		+ " to another person with only last name set when both"
+        		+ " last names are the same"
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with only last name set should be equal"
+        		+ " to another person with only last name set when both"
+        		+ " last names are the same"
+				, expected0, p.compareTo(myPerson));
+				
+33) Create the code.  Once again we need to handle the equality and only evaluate first name/age block if both are equal
+	for now, if both are equal, we don't reset the variable.  We'll need to do this once we get the first name equality working
+	in the next step, along with age.  Here is the code for the last names not null block at this point:
+	
+	//both have a last name:
+	if (!thisLastNameNull && !objLastNameNull)
+	{
+		//again, we need to start working with a return value
+		//once age equality is important
+		_returnValue = this.getLastName().compareTo(p.getLastName());
+		
+		if (_returnValue == 0)
+		{
+			//we'll need to do more evaluation or reset _return value here soon
+			
+			if (!thisFirstNameNull && objFirstNameNull)
+    		{
+    			//left has first name set, right does not have anything set
+    			return 1;
+    		}
+    		else if (thisFirstNameNull && !objFirstNameNull)
+    		{
+    			//right has a first name set, left does not
+    			return -1;
+    		}
+    		else if (thisFirstNameNull && objFirstNameNull)
+    		{
+    			//neither has a first name
+    			//now look at age
+    			if (!thisAgeZero && objAgeZero)
+    			{
+    				//left side has an age, right does not
+    				return 1;
+    			}
+    			else if (thisAgeZero && !objAgeZero)
+    			{
+    				//right side has an age, left side does not
+    				return -1;
+    			}
+    			//age equality!
+    		}
+		}
+	}
+
+	
+34 ) Create the test for the case when both last and both ages are set, but nothing is set for either first name.
+     here again, we need to make sure that age comparisons happen
+     /********************** BOTH LAST NAMES SET, BOTH AGES SET, NO FN SET **********/
+	    /************** AGAIN: IF LAST NAMES ARE NOT EQUAL, THE AGE IS IRRELLEVANT 
+	     						SO WE ONLY NEED TO ADD TESTS FOR THE AGE EQUALITY TESTING
+	    ********************************************************************************/
+	    myPerson.setLastName(lastName);
+	    myPerson.setFirstName(null);
+	    myPerson.setAge(100);
+	    p.setLastName(lastName);
+	    p.setFirstName(null);
+	    p.setAge(age);
+	    assertEquals("Person with last name equal, no first name set,and greater age "
+	    		+ "should be greater than person with last name equal, no first name"
+	    		+ ", and lesser age"
+				, expected1, myPerson.compareTo(p));
+	    assertEquals("Person with last name equal, no first name set,and greater age "
+	    		+ "should be greater than person with last name equal, no first name"
+	    		+ ", and lesser age"
+				, expectedm1, p.compareTo(myPerson));
+	    
+	    myPerson.setLastName(lastName);
+	    myPerson.setFirstName(null);
+	    myPerson.setAge(age);
+	    p.setLastName(lastName);
+	    p.setFirstName(null);
+	    p.setAge(100);
+	    assertEquals("Person with last name equal, no first name set,and lesser age "
+	    		+ "should be lesser than person with last name equal, no first name"
+	    		+ ", and greater age"
+				, expectedm1, myPerson.compareTo(p));
+	    assertEquals("Person with last name equal, no first name set,and lesser age "
+	    		+ "should be lesser than person with last name equal, no first name"
+	    		+ ", and greater age"
+				, expected1, p.compareTo(myPerson));
+	    
+	    myPerson.setLastName(lastName);
+	    myPerson.setFirstName(null);
+	    myPerson.setAge(0);
+	    p.setLastName(lastName);
+	    p.setFirstName(null);
+	    p.setAge(0);
+	    assertEquals("Person with only last name set should be equal"
+	    		+ " to another person with only last name set when both"
+	    		+ " last names are the same"
+				, expected0, myPerson.compareTo(p));
+	    assertEquals("Person with only last name set should be equal"
+	    		+ " to another person with only last name set when both"
+	    		+ " last names are the same"
+				, expected0, p.compareTo(myPerson));
+				
+     
+35) Create the code to get the comparisons working.  Here in the age comparison, we can just return the value, since there
+    is nothing else to compare if we get that far:
+    //both have a last name:
+    	if (!thisLastNameNull && !objLastNameNull)
+    	{
+    		//again, we need to start working with a return value
+    		//once age equality is important
+    		_returnValue = this.getLastName().compareTo(p.getLastName());
+    		
+    		if (_returnValue == 0)
+    		{
+    			//we'll need to do more evaluation or reset _return value here soon
+    			
+    			if (!thisFirstNameNull && objFirstNameNull)
+	    		{
+	    			//left has first name set, right does not have anything set
+	    			return 1;
+	    		}
+	    		else if (thisFirstNameNull && !objFirstNameNull)
+	    		{
+	    			//right has a first name set, left does not
+	    			return -1;
+	    		}
+	    		else if (thisFirstNameNull && objFirstNameNull)
+	    		{
+	    			//neither has a first name
+	    			//now look at age
+	    			if (!thisAgeZero && objAgeZero)
+	    			{
+	    				//left side has an age, right does not
+	    				return 1;
+	    			}
+	    			else if (thisAgeZero && !objAgeZero)
+	    			{
+	    				//right side has an age, left side does not
+	    				return -1;
+	    			}
+	    			else
+	    			{
+	    				//using Integer compare to (can't compareTo on primitive int)
+	    				Integer left = this.getAge();
+	    				Integer right = p.getAge();
+	    				return left.compareTo(right);
+	    			}
+	    		}
+    		}
+    	}
+    	
+ 36) Add tests for the case when both last and first are set, but age is not set - which means we'll only 
+     need to add age equality testing for the case where both last names are equal and both first names are set
+     
+     	/***** BOTH LAST NAMES SET, BOTH FIRST NAMES SET, AGES NOT SET ******
+         * 			HERE WE JUST NEED TO ADD TESTS FOR AGE EQUALITY
+         ********************************************************************/
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName("Andrew");
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with last name equal, lesser name, and no age set "
+        		+ "should be less than than person with last name equal, greater first name"
+        		+ ", and no age set"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, lesser name, and no age set "
+        		+ "should be less than than person with last name equal, greater first name"
+        		+ ", and no age set"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName("Andrew");
+        p.setAge(0);
+        assertEquals("Person with last name equal, greater name, and no age set "
+        		+ "should be greater than than person with last name equal, lesser first name"
+        		+ ", and no age set"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, greater name, and no age set "
+        		+ "should be greater than than person with last name equal, lesser first name"
+        		+ ", and no age set"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(0);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(0);
+        assertEquals("Person with equal last name and first name but no age set "
+        		+ "should be equal to person with equal last name and first name "
+        		+ "but no age set"
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Person with equal last name and first name but no age set "
+        		+ "should be equal to person with equal last name and first name "
+        		+ "but no age set"
+				, expected0, p.compareTo(myPerson));
+     
+     
+ 37) Write the code to handle the case where both last names and both first names are set but no age equality since no age set
+ 				/************** existing code ****************************/
+ 				else if (thisFirstNameNull && objFirstNameNull)
+	    		{
+	    			//neither has a first name
+	    			//now look at age
+	    			if (!thisAgeZero && objAgeZero)
+	    			{
+	    				//left side has an age, right does not
+	    				return 1;
+	    			}
+	    			else if (thisAgeZero && !objAgeZero)
+	    			{
+	    				//right side has an age, left side does not
+	    				return -1;
+	    			}
+	    			else
+	    			{
+	    				//using Integer compare to (can't compareTo on primitive int)
+	    				Integer left = this.getAge();
+	    				Integer right = p.getAge();
+	    				return left.compareTo(right);
+	    			}
+	    		}
+	    		/*******************  New code below this line **************************/
+    			else
+	    		{
+    				//age equality matters because both are set
+    	    		_returnValue = this.getFirstName().compareTo(p.getFirstName());
+	    			
+    	    		//we know age is going to matter here soon....
+	    		}
+     
+ 38) Write the tests to handle the case where everything is set.  We know this will go in the else block we just wrote, and will
+     only require us to test the age equality, because the first name is already handled, as is the last name, and if they
+     are different, we've already got that covered.
+     
+     	/****************************************************************************
+         * EVERYTHING SET, ONLY THING WE NEED TO TEST IS AGE EQUALITY
+         ****************************************************************************/
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(100);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Person with last name equal, first name equal, and age set higher "
+        		+ "should be greater than person with last name equal, first name equal "
+        		+ ", and age set lower"
+				, expected1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, first name equal, and age set higher "
+        		+ "should be greater than person with last name equal, first name equal "
+        		+ ", and age set lower"
+				, expectedm1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(100);
+        assertEquals("Person with last name equal, first name equal, and age set lower "
+        		+ "should be less than person with last name equal, first name equal "
+        		+ ", and age set higher"
+				, expectedm1, myPerson.compareTo(p));
+        assertEquals("Person with last name equal, first name equal, and age set lower "
+        		+ "should be less than person with last name equal, first name equal "
+        		+ ", and age set higher"
+				, expected1, p.compareTo(myPerson));
+        
+        myPerson.setLastName(lastName);
+        myPerson.setFirstName(firstName);
+        myPerson.setAge(age);
+        p.setLastName(lastName);
+        p.setFirstName(firstName);
+        p.setAge(age);
+        assertEquals("Two person objects with all three properties set equally"
+        		+ "should be equal "
+				, expected0, myPerson.compareTo(p));
+        assertEquals("Two person objects with all three properties set equally"
+        		+ "should be equal "
+				, expected0, p.compareTo(myPerson));
+				
+39) Write the code to handle the tests for the case when everything is set, essentially adding in age equality check
+    when last and first are set and equal:
+    
+     			else
+	    		{
+    				//age equality matters because both are set
+    	    		_returnValue = this.getFirstName().compareTo(p.getFirstName());
+	    			
+    	    		if (_returnValue == 0)
+    	    		{
+    	    			//here again we can just compare and return age
+    	    			//using Integer compare to (can't compareTo on primitive int)
+	    				Integer left = this.getAge();
+	    				Integer right = p.getAge();
+	    				return left.compareTo(right);
+    	    		}
+	    		}
+	    		
+	    		
+40) THE END!!!!!!!!!!!
+
+41) Reduce Redundancy - technically, we should take out all of the places we have the same code for integer compare and place in a method
+42) Re-Run the tests to make sure they are all still passing.

@@ -1,0 +1,15 @@
+
+    
+    /**
+     * Get the person as a string
+     * @return the person as a String.
+     */
+    public String toString()
+    {
+        return String.format("Name: %s %s\tAge: %d"
+                                , getFirstName()
+                                , getLastName()
+                                , getAge());
+    }
+    
+   

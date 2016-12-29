@@ -1,0 +1,16 @@
+	@Test
+	public void testToString()
+	{
+		myPerson.setFirstName(firstName);
+		myPerson.setLastName(lastName);
+		myPerson.setAge(age);
+		
+		String personString = myPerson.toString();
+		assertTrue("Person toString does not contain firstName"
+					, personString.contains(firstName));	
+		assertTrue("Person toString does not contain lastName"
+				, personString.contains(lastName));
+		assertTrue("Person toString does not contain age"
+				, personString.contains(String.format("%d", age)));	
+	}
+	
