@@ -6,6 +6,7 @@ import org.junit.Test;
 
 public class VehicleTest {
 	private Vehicle v;
+	private Vehicle v2;
 	//VIN
 	private static String VIN = "235423523asdfasda235235";
 	//MAKE
@@ -24,6 +25,7 @@ public class VehicleTest {
 	@Before
 	public void setUp() throws Exception {
 		v = new Vehicle();
+		v2 = new Vehicle(VIN, MAKE, MODEL, YEAR, COLOR, MILEAGE);
 	}
 
 	@After
@@ -36,10 +38,24 @@ public class VehicleTest {
 	}
 	
 	@Test
+	public void testExplicitConstructor() {
+		assertNotNull("Could not instantiate Vehicle", v2);
+		assertEquals("Vin was not as expected", VIN, v2.getVin());
+		assertEquals("Make was not as expected", MAKE, v2.getMake());
+		assertEquals("Model was not as expected", MODEL, v2.getModel());
+		assertEquals("Year was not as expected", YEAR, v2.getYear());
+		assertEquals("Color was not as expected", COLOR, v2.getColor());
+		assertEquals("Mileage was not as expected", MILEAGE, v2.getMileage(), DELTA);
+	}
+	
+	
+	@Test
 	public void testVIN() {
 		v.setVin(VIN);
 		assertEquals("Vin was not as expected", VIN, v.getVin());
 	}
+	
+	
 	
 	@Test
 	public void testMake() {

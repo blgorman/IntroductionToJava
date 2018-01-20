@@ -18,11 +18,19 @@ public class Vehicle
 	//Mileage
 	private double mileage;
 	
-	/*
 	public Vehicle() {
 		//do nothing
 	}
-	*/
+	
+	public Vehicle(String startVin, String startMake, String startModel, int startYear, String startColor, double startMileage)
+	{
+		vin = startVin;
+		make = startMake;
+		model = startModel;
+		year = startYear;
+		color = startColor;
+		mileage = startMileage;
+	}
 	
 	//
 	public String getVin()
