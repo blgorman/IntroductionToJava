@@ -87,5 +87,18 @@ public class VehicleTest {
 		assertEquals("Mileage was not as expected", MILEAGE, v.getMileage(), DELTA);
 	}
 	
+	@Test
+	public void testIsRunningAndStartMethods() 
+	{
+		v.start();
+		assertTrue("Could not start car as expected", v.isRunning());
+	}
+	
+	@Test
+	public void testIsRunningAndStopMethods() 
+	{
+		v.stop();
+		assertFalse("Could not stop car as expected", v.isRunning());
+	}
 
 }

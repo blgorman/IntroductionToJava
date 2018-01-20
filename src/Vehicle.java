@@ -18,6 +18,9 @@ public class Vehicle
 	//Mileage
 	private double mileage;
 	
+	private boolean isRunning;
+	
+	
 	public Vehicle() {
 		//do nothing
 	}
@@ -91,6 +94,22 @@ public class Vehicle
 	public void setMileage(double value)
 	{
 		mileage = value;
+	}
+	
+	
+	public void start() 
+	{
+		isRunning = true;
+	}
+	
+	public void stop()
+	{
+		isRunning = false;
+	}
+	
+	public boolean isRunning() 
+	{
+		return isRunning;
 	}
 	
 }
