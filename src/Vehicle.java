@@ -21,7 +21,8 @@ public class Vehicle
 	private boolean isRunning;
 	
 	private double speed;
-	
+
+	private double bearing;
 	
 	public Vehicle() {
 		//do nothing
@@ -130,6 +131,15 @@ public class Vehicle
 	{
 		speed += value;
 		return this.getSpeed();
+	}
+	
+	public void changeDirection(double value)
+	{
+		bearing = value;
+	}
+	public double getDirection()
+	{
+		return bearing;
 	}
 	
 	public String toString() {
