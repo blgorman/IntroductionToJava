@@ -21,4 +21,10 @@ public class Car extends Vehicle
 		isConvertible = value;
 	}
 	
+	public String toString() {
+		return String.format("%s\tIs a Convertible: %b"
+								, super.toString()
+								, this.getIsConvertible());
+	}
+	
 }
