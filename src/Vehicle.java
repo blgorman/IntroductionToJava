@@ -20,6 +20,8 @@ public class Vehicle
 	
 	private boolean isRunning;
 	
+	private double speed;
+	
 	
 	public Vehicle() {
 		//do nothing
@@ -33,6 +35,7 @@ public class Vehicle
 		year = startYear;
 		color = startColor;
 		mileage = startMileage;
+		speed = 0.0;
 	}
 	
 	//
@@ -110,6 +113,23 @@ public class Vehicle
 	public boolean isRunning() 
 	{
 		return isRunning;
+	}
+	
+	public double getSpeed()
+	{
+		return speed;
+	}
+	
+	public double accellerate()
+	{
+		speed += .5;
+		return this.getSpeed();
+	}
+	
+	public double accellerate(double value)
+	{
+		speed += value;
+		return this.getSpeed();
 	}
 	
 	public String toString() {

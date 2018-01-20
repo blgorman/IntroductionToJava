@@ -102,6 +102,23 @@ public class VehicleTest {
 	}
 
 	@Test
+	public void testStandardAccelleration()
+	{
+		double initialSpeed = v.getSpeed();
+		v.accellerate();
+		assertEquals("Standard accelleration didn't work as expected", initialSpeed + .5, v.getSpeed(), DELTA);
+	}
+	
+	@Test
+	public void testVariableAccelleration()
+	{
+		double initialSpeed = v.getSpeed();
+		v.accellerate(20.0);
+		assertEquals("Variable accelleration didn't work as expected", initialSpeed + 20, v.getSpeed(), DELTA);
+	}
+	
+	
+	@Test
 	public void testToString()
 	{
 		String testingString = v2.toString();
