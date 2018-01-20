@@ -113,9 +113,6 @@ public class Vehicle
 	}
 	
 	public String toString() {
-		//return super.toString() + "\nOverriding base toString() method from Object";
-
-		
 		return String.format("VIN: %s\tMake: %s\tModel: %s\tYear: %d\tColor: %s\tMileage: %.1f"
 								, this.getVin()
 								, this.getMake()

@@ -114,4 +114,16 @@ public class CarTest {
 	}
 	
 
+	@Test
+	public void testToString()
+	{
+		String testingString = v2.toString();
+		assertTrue("ToString does not contain VIN", testingString.contains(VIN));
+		assertTrue("ToString does not contain MAKE", testingString.contains(MAKE));
+		assertTrue("ToString does not contain MODEL", testingString.contains(MODEL));
+		assertTrue("ToString does not contain YEAR", testingString.contains(String.format("%d",  YEAR)));
+		assertTrue("ToString does not contain COLOR", testingString.contains(COLOR));
+		assertTrue("ToString does not contain convertible value", testingString.contains(String.format("Is a Convertible: %b",  v2.getIsConvertible())));
+		assertTrue("ToString does not contain MILEAGE", testingString.contains(String.format("%.1f",  MILEAGE)));
+	}
 }

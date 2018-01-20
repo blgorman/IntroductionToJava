@@ -101,5 +101,17 @@ public class TruckTest {
 		v.stop();
 		assertFalse("Could not stop car as expected", v.isRunning());
 	}
+	
+	@Test
+	public void testToString()
+	{
+		String testingString = v2.toString();
+		assertTrue("ToString does not contain VIN", testingString.contains(VIN));
+		assertTrue("ToString does not contain MAKE", testingString.contains(MAKE));
+		assertTrue("ToString does not contain MODEL", testingString.contains(MODEL));
+		assertTrue("ToString does not contain YEAR", testingString.contains(String.format("%d",  YEAR)));
+		assertTrue("ToString does not contain COLOR", testingString.contains(COLOR));
+		assertTrue("ToString does not contain MILEAGE", testingString.contains(String.format("%.1f",  MILEAGE)));
+	}
 
 }
