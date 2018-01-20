@@ -22,11 +22,14 @@ public class CarTest {
 	private static double MILEAGE = 25.0;
 	private static double DELTA = 0.00001;
 	
+	//IsConvertible
+	private static boolean ISCONVERTIBLE = true;
+	
 	
 	@Before
 	public void setUp() throws Exception {
 		v = new Car();
-		v2 = new Car(VIN, MAKE, MODEL, YEAR, COLOR, MILEAGE);
+		v2 = new Car(VIN, MAKE, MODEL, YEAR, COLOR, MILEAGE, ISCONVERTIBLE);
 	}
 
 	@After
@@ -47,6 +50,7 @@ public class CarTest {
 		assertEquals("Year was not as expected", YEAR, v2.getYear());
 		assertEquals("Color was not as expected", COLOR, v2.getColor());
 		assertEquals("Mileage was not as expected", MILEAGE, v2.getMileage(), DELTA);
+		assertTrue("Is Convertible is not set as expected", v2.getIsConvertible());
 	}
 	
 	
@@ -89,6 +93,13 @@ public class CarTest {
 	}
 	
 	@Test
+	public void testIsConvertible() {
+		v.setIsConvertible(ISCONVERTIBLE);
+		assertTrue("Is Convertible is not set as expected", v.getIsConvertible());
+	}
+
+	
+	@Test
 	public void testIsRunningAndStartMethods() 
 	{
 		v.start();
@@ -101,5 +112,6 @@ public class CarTest {
 		v.stop();
 		assertFalse("Could not stop car as expected", v.isRunning());
 	}
+	
 
 }
